@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Details</title>
+    <style>
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 20px;
+    padding: 0;
+    background: linear-gradient(to bottom, #ffffff, #f4f4f4);
+}
+
+a {
+    text-decoration: none;
+    color: #0066cc;
+    margin-right: 20px;
+}
+
+header {
+    background: linear-gradient(to right, #4caf50, #45a049);
+    color: white;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+a {
+    padding: 10px;
+    background-color: red;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    text-align: right;
+}
+h1 {
+    text-align: center;
+    color: #333333;
+}
+.container h3{
+    text-align:left;
+}
+.container h2{
+    text-align:left;
+}
+form {
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333333;
+}
+.container{
+    text-align: center;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+    
+    background: linear-gradient(to right, white, orange);
+}
+input[type="text"] {
+    width: 300px;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 8px 12px;
+    background: linear-gradient(to bottom, #4caf50, #45a049);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background: linear-gradient(to bottom, #45a049, #4caf50);
+}
+
+h2, h3 {
+    color: #333333;
+    margin-top: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 5px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+p {
+    color: #555555;
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 24px;
+    }
+
+    input[type="text"] {
+        width: 100%;
+    }
+}
+    </style>
+</head>
+<body>
+    <h1>Place Details</h1>
+    <a href="{% url 'logout' %}">Logout</a>
+    <form method="post" action="{% url 'place_details' %}">
+        {% csrf_token %}
+        <label for="place_name">Enter Place Name:</label>
+        <input type="text" id="place_name" name="place_name" required>
+        <button type="submit">Get Details</button>
+    </form>
+
+    {% if user_name %}
+        <h2>Hello, {{ user_name }}!</h2>
+    {% endif %}
+
+    {% if extract %}
+    <div class="container">
+        <h3>Wikipedia Extract:</h3>
+        <p>{{ extract|safe }}</p>
+    {% else %}
+        <p>No information available for the specified place.</p>
+    {% endif %}
+
+    {% if daily_tour_plans %}
+</div>
+<div class="container">
+        <h2>Random Tour Plans for the Day:</h2>
+        <ul>
+            {% for plan in daily_tour_plans %}
+                <li>{{ plan }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+</body>
+</html>
